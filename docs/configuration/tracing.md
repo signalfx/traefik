@@ -31,6 +31,25 @@ Traefik supports three tracing backends: Jaeger, Zipkin and DataDog.
   spanNameLimit = 0
 
   [tracing.jaeger]
+    # Collector Endpoint is the URL for a remote Jaeger collector.
+    #
+    collectorEndpoint = "http://my_remote_collector"
+
+    # User is the Basic Auth username used w/ CollectorEndpoint
+    #
+    user = "MyUsername"
+
+    # Password is the Basic Auth password used w/ CollectorEndpoint
+    #
+    password = "MyPassword"
+
+    # Set the propagation header type. This can be either:
+    #   - "jaeger", jaeger's default trace header.
+    #   - "b3", compatible with OpenZipkin
+    #
+    # Default: "jaeger"
+    propagation = "b3"
+
     # Sampling Server URL is the address of jaeger-agent's HTTP sampling server
     #
     # Default: "http://localhost:5778/sampling"

@@ -8,13 +8,8 @@ const tmpl = `
   {{range $partition := $service.Partitions }}
   {{range $instance := $partition.Instances }}
     [backends."{{ $aggName }}".servers."{{ $service.ID }}-{{ $instance.ID }}"]
+      url = "{{ getDefaultEndpoint $instance }}"
       weight = {{ getGroupedWeight $service }}
-      {{ $endpointName := getLabelValue $service "traefik.servicefabric.endpointname" "" }}
-      {{if $endpointName }}
-        url = "{{ getNamedEndpoint $instance $endpointName }}"
-      {{else}}
-        url = "{{ getDefaultEndpoint $instance }}"
-      {{end}}
   {{end}}
   {{end}}
   {{end}}
@@ -70,13 +65,8 @@ const tmpl = `
 
         {{range $instance := $partition.Instances}}
           [backends."{{ $service.Name }}".servers."{{ $instance.ID }}"]
+            url = "{{ getDefaultEndpoint $instance }}"
             weight = {{ getWeight $service }}
-            {{ $endpointName := getLabelValue $service "traefik.servicefabric.endpointname" "" }}
-            {{if $endpointName }}
-              url = "{{ getNamedEndpoint $instance $endpointName }}"
-            {{else}}
-              url = "{{ getDefaultEndpoint $instance }}"
-          {{end}}
         {{end}}
 
       {{else if isStateful $service}}
@@ -85,16 +75,11 @@ const tmpl = `
           {{if isPrimary $replica}}
             {{ $backendName := getBackendName $service $partition }}
             [backends."{{ $backendName }}".servers."{{ $replica.ID }}"]
-              weight = 1
-              {{ $endpointName := getLabelValue $service "traefik.servicefabric.endpointname" "" }}
-              {{if $endpointName }}
-                url = "{{ getNamedEndpoint $replica $endpointName }}"
-              {{else}}
-                url = "{{ getDefaultEndpoint $replica }}"
-              {{end}}
+              url = "{{ getDefaultEndpoint $replica }}"
+							weight = 1
 
-              [backends."{{$backendName}}".LoadBalancer]
-                method = "drr"
+            [backends."{{$backendName}}".LoadBalancer]
+              method = "drr"
 
           {{end}}
         {{end}}
@@ -129,14 +114,14 @@ const tmpl = `
         passHostHeader = {{ getPassHostHeader $service }}
         passTLSCert = {{ getPassTLSCert $service }}
         priority = {{ getPriority $service }}
-
+  
         {{ $entryPoints := getEntryPoints $service }}
         {{if $entryPoints }}
         entryPoints = [{{range $entryPoints }}
           "{{.}}",
           {{end}}]
         {{end}}
-
+  
         {{ $basicAuth := getBasicAuth $service }}
         {{if $basicAuth }}
          basicAuth = [{{range $basicAuth }}
@@ -181,33 +166,33 @@ const tmpl = `
           PublicKey = "{{ $headers.PublicKey }}"
           ReferrerPolicy = "{{ $headers.ReferrerPolicy }}"
           IsDevelopment = {{ $headers.IsDevelopment }}
-
+  
           {{if $headers.AllowedHosts }}
           AllowedHosts = [{{range $headers.AllowedHosts }}
             "{{.}}",
             {{end}}]
           {{end}}
-
+  
           {{if $headers.HostsProxyHeaders }}
           HostsProxyHeaders = [{{range $headers.HostsProxyHeaders }}
             "{{.}}",
             {{end}}]
           {{end}}
-
+  
           {{if $headers.CustomRequestHeaders }}
           [frontends."frontend-{{ $frontendName }}".headers.customRequestHeaders]
             {{range $k, $v := $headers.CustomRequestHeaders }}
             {{$k}} = "{{$v}}"
             {{end}}
           {{end}}
-
+  
           {{if $headers.CustomResponseHeaders }}
           [frontends."frontend-{{ $frontendName }}".headers.customResponseHeaders]
             {{range $k, $v := $headers.CustomResponseHeaders }}
             {{$k}} = "{{$v}}"
             {{end}}
           {{end}}
-
+  
           {{if $headers.SSLProxyHeaders }}
           [frontends."frontend-{{ $frontendName }}".headers.SSLProxyHeaders]
             {{range $k, $v := $headers.SSLProxyHeaders }}
@@ -215,7 +200,7 @@ const tmpl = `
             {{end}}
           {{end}}
         {{end}}
-
+  
       {{range $key, $value := getFrontendRules $service }}
         [frontends."frontend-{{ $frontendName }}".routes."{{ $key }}"]
           rule = "{{ $value }}"
