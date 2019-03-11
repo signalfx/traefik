@@ -54,8 +54,8 @@
   version = "1.13.11"
 
 [[constraint]]
-  branch = "master"
   name = "github.com/cenk/backoff"
+  version = "2.1.1"
 
 [[constraint]]
   name = "github.com/containous/flaeg"
@@ -69,9 +69,9 @@
   name = "github.com/containous/staert"
   version = "3.1.1"
 
-#[[constraint]]
-#  name = "github.com/containous/traefik-extra-service-fabric"
-#  version = "1.4.0"
+[[constraint]]
+  name = "github.com/containous/traefik-extra-service-fabric"
+  version = "1.4.0"
 
 [[constraint]]
   name = "github.com/coreos/go-systemd"

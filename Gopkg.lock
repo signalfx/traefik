@@ -315,12 +315,12 @@
   revision = "4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9"
 
 [[projects]]
-  branch = "master"
   digest = "1:cdee563173093e5ae7ab2a19c298e0904129719e1919a3c532b7bb0c3398b818"
   name = "github.com/cenk/backoff"
   packages = ["."]
   pruneopts = "NUT"
   revision = "1e4cf3da559842a91afcb6ea6141451e6c30c618"
+  version = "v2.1.1"
 
 [[projects]]
   digest = "1:cdee563173093e5ae7ab2a19c298e0904129719e1919a3c532b7bb0c3398b818"
@@ -382,12 +382,12 @@
   version = "v3.1.2"
 
 [[projects]]
-  digest = "1:d6dafe89b5d99d757f29b74a181659350361e5d9d347b257da41e3a6b5c796c5"
+  digest = "1:c3b53329ed653612f28835a4ab40a0c7686c2564ec04164e34c33fa95c80e3b8"
   name = "github.com/containous/traefik-extra-service-fabric"
   packages = ["."]
   pruneopts = "NUT"
-  revision = "6e90a9eef2ac9d320e55d6e994d169673a8d8b0f"
-  version = "v1.3.0"
+  revision = "b9142ccc2205284b288c0b085444fedd42ea5126"
+  version = "v1.4.0"
 
 [[projects]]
   digest = "1:4e9c9d51ef5c98f2a71d6fa56a22f0bb8a4463656f9591ba24ebff2c21bcbd1f"
