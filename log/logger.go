@@ -32,6 +32,12 @@ func Context(context interface{}) *logrus.Entry {
 	return logger.WithField("context", context)
 }
 
+// Adjusted from https://github.com/containous/traefik/blob/a09dfa3ce10f222ab6e10ac11386d330698ff6f8/log/log.go
+// WithoutContext Gets the main logger
+func WithoutContext() Logger {
+	return logger
+}
+
 // SetOutput sets the standard logger output.
 func SetOutput(out io.Writer) {
 	logrus.SetOutput(out)
